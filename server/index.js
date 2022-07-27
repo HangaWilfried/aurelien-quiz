@@ -1,25 +1,21 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
 
 const app = express()
-
-const production = process.env.NODE_ENV === 'production'
-if (production) {
-    app.use(express.static(__dirname + '../client/dist'))
-} else {
-    app.use(express.static(__dirname + '../client'))
+if(process.env.NODE_ENV === "production") {
+  app.use(express.static(__dirname + '/public/'));
+  app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 }
 
-
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5500
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-mongoose.connect(process.env.MONGO_CONNECTION_URI, {
+mongoose.connect(Process.env.MONGO_CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
