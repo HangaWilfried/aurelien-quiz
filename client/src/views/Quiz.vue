@@ -69,8 +69,8 @@ const fetchData = async () => {
     const { data } = await axios.get(url)
     return _.shuffle(data);
   }
-  catch (err) {
-    console.log("error", err);
+  catch (error) {
+    return `error ${error}`;
   }
 };
 
