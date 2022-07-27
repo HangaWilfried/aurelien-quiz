@@ -4,10 +4,14 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 
 const app = express()
-if(process.env.NODE_ENV === "production") {
-  app.use(express.static(__dirname + '/public/'));
-  app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+
+const production = process.env.NODE_ENV === 'production'
+if (production) {
+    app.use(express.static(__dirname + '../client/dist'))
+} else {
+    app.use(express.static(__dirname + '../client'))
 }
+
 
 const port = process.env.PORT || 5500
 
@@ -15,7 +19,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-mongoose.connect("mongodb+srv://juniorlagoue:deuxmille@cluster0.aqlza.mongodb.net/quiz?retryWrites=true&w=majority", {
+mongoose.connect(Process.env.MONGO_CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
