@@ -104,7 +104,7 @@ const showNextQuestion = () => {
 };
 const router = useRouter();
 const goToDetails = async () => {
-  store.addUserToDatabase();
+  await store.addUserToDatabase();
   await router.push(`/quiz/${store.backPlayer.username}/score`)
 }
 

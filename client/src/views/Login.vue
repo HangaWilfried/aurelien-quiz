@@ -62,9 +62,9 @@ export default {
 
     const router = useRouter();
     const useStore = useUserStore();
-    const goToHomePage =  () => {
+    const goToHomePage =  async () => {
       useStore.updatePlayer(user)
-      router.push("/welcome");
+      await router.push("/welcome");
     }
 
     return {
