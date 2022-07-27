@@ -47,8 +47,7 @@ import QuestionBox from "../components/QuestionBox.vue";
 import Answer from "../components/Answer.vue";
 import Bottom from "../components/Bottom.vue";
 import { useRouter } from "vue-router";
-import { addUserToDatabase, updatePlayer } from "../stores/login"
-import { computedPlayer, incrementScore } from "../stores/login";
+import { useUserStore } from "../stores/login";
 
 const keys = [
  "JavaScript","HTML","Kubernetes",
@@ -61,6 +60,7 @@ const quiz = reactive([]);
 const questionIndex = ref(0);
 const totalQuestions = computed(() => quiz.length) ;
 const currentQuestion = computed(() => questionIndex.value + 1);
+const store = useUserStore()
 
 const fetchData = async () => {
   const tag = keys[Math.floor(Math.random() * keys.length)];
@@ -104,17 +104,15 @@ const showNextQuestion = () => {
 };
 const router = useRouter();
 const goToDetails = async () => {
-  const register = JSON.parse(localStorage.getItem('player'))
-  updatePlayer({...register})
-  addUserToDatabase();
-  await router.push(`/quiz/${computedPlayer.value.username}/score`)
+  store.addUserToDatabase();
+  await router.push(`/quiz/${store.backPlayer.username}/score`)
 }
 
 const hasSelected = ref(false);
 const setClass = (index) => {
   if (hasSelected.value && selectedIndex.value !== null) {
     if (selectedIndex.value === index && question.answers[index] === question.correctAnswer) {
-      incrementScore()
+      store.incrementScore();
       return "correct"
     }
     else if (selectedIndex.value === index && question.answers[index] !== question.correctAnswer) {

@@ -1,46 +1,59 @@
-import { computed, reactive, ref } from "vue";
 import axios from "axios";
+import { defineStore } from 'pinia';
 
-const value = ref(0)
-
-export const incrementScore = () => {
-  value.value += 1;
-  console.log(value.value)
-};
-
-export const resetScore = () => {
-  value.value = 0;
-};
-
-export const getScore = computed(() => value.value)
-
-const player = reactive({
-     firstname: "",
-     lastname: "",
-     username: "",
-     score: 0
-   });
-
- export const updatePlayer = ({ firstname, lastname, username }) => {
-     player.firstname = firstname;
-     player.lastname = lastname;
-     player.username = username;
-     player.score = getScore.value;
-     localStorage.setItem("player", JSON.stringify(player))
-   }
-
- export const computedPlayer = computed(() => player);
-
- export const addUserToDatabase = () => {
-    axios({
+export const useUserStore = defineStore('player', {
+  state: () => ({
+      firstname: "",
+      lastname: "",
+      username: "",
+      score: 0
+  }),
+  getters: {
+    backPlayer: (state) => ({
+      firstname:  state.firstname,
+      lastname:  state.lastname,
+      username:  state.username,
+      score: state.score
+    })
+  },
+  actions: {
+     updatePlayer(player) {
+      this.firstname = player.firstname
+      this.lastname = player.lastname
+      this.username = player.username
+    },
+    incrementScore(){
+      this.score += 1;
+      console.log(this.score)
+    },
+    resetScore(){
+      this.score = 0;
+    },
+    async addUserToDatabase() {
+      await axios({
         method: "post",
         url: "/api/post",
-        data: {
-            firstname: computedPlayer.value.firstname,
-            lastname: computedPlayer.value.lastname,
-            username: computedPlayer.value.username,
-            score: computedPlayer.value.score
-        }
-    })
-    new Notification("your data have been send!");
- }
+        data: this.backPlayer,
+      })
+      new Notification("your data have been send!");
+    },
+  },
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

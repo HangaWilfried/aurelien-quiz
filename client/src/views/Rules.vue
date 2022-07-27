@@ -24,12 +24,12 @@
 </template>
 
 <script setup>
-import { computedPlayer } from "../stores/login";
+import { useUserStore } from "../stores/login";
 import { useRouter } from "vue-router";
-
+const store = useUserStore()
 const router = useRouter()
 const startQuiz = () => {
-  router.push(`/quiz/${computedPlayer.value.username}`)
+  router.push(`/quiz/${store.backPlayer.username}`)
 }
 
 const exitQuiz = () => {

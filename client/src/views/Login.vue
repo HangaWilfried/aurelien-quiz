@@ -48,7 +48,7 @@
 
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
-import { updatePlayer } from "../stores/login";
+import { useUserStore } from "../stores/login";
 
 export default {
   name: "Login",
@@ -57,13 +57,14 @@ export default {
       firstname: "",
       lastname: "",
       username: "",
+      score: 0,
     });
 
     const router = useRouter();
-
-    const goToHomePage = async () => {
-      await updatePlayer(user)
-      await router.push("/welcome");
+    const useStore = useUserStore();
+    const goToHomePage =  () => {
+      useStore.updatePlayer(user)
+      router.push("/welcome");
     }
 
     return {
