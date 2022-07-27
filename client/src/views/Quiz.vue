@@ -16,7 +16,7 @@
             :key="index"
             :answer="answer"
             @click="selectAnswer(index)"
-            class="mx-4 my-2.5 cursor-pointer p-1.5 rounded-md transition ease-in duration-75"
+            class="mx-4 my-2.5 cursor-pointer p-1.5 rounded-md transition ease-in-out duration-75"
             :class="setClass(index)"
             />
         </div>
