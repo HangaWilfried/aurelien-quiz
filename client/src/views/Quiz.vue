@@ -1,7 +1,7 @@
 <template>
   <main class="absolute top-0 left-0 bg-blue-600 w-full h-full flex justify-center items-center text-xs md:text-base">
     <section class="bg-white rounded shadow-xl w-[80%] md:max-w-[530px]">
-      <Header />
+      <Header :theme="tag" />
       <div class="w-full h-0.5 bg-blue-400"></div>
       <QuestionBox
         :number="currentQuestion"
@@ -63,10 +63,12 @@ const questionIndex = ref(0);
 const currentQuestion = computed(() => questionIndex.value + 1);
 const store = useUserStore()
 const totalStore = useQuestionStore()
+const tag = ref(-1);
+
 
 const fetchData = async () => {
-  const tag = keys[Math.floor(Math.random() * keys.length)];
-  const url = `https://quizapi.io/api/v1/questions?apiKey=Gn8k1ABUNVdqrf54oPPX5FRsEmzgbkzDCIZKv6dH&limit=20&tags=${tag}`
+  tag.value = keys[Math.floor(Math.random() * keys.length)];
+  const url = `https://quizapi.io/api/v1/questions?apiKey=Gn8k1ABUNVdqrf54oPPX5FRsEmzgbkzDCIZKv6dH&limit=20&tags=${tag.value}`
   try {
     const { data } = await axios.get(url)
     totalStore.updateTotalScore(data.length);

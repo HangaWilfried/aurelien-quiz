@@ -5,8 +5,7 @@
     <span class="text-gray-500 font-outfit-regular">{{ label }}</span>
     <div class="font-outfit-medium">
       <span class="text-orange-800">{{ score }}</span>
-      /
-      <span class="text-blue-800">{{ total }}</span>
+      <span class="text-blue-800" v-if="total !== 'undefined'"> / {{ total }}</span>
     </div>
   </div>
 </template>
@@ -15,6 +14,9 @@
 import IconTime from "../components/icons/IconTime.vue";
 import IconQuestion from "../components/icons/IconQuestion.vue";
 import IconRight from "../components/icons/IconRight.vue";
+import IconUser from "../components/icons/IconUser.vue";
+import IconUsername from "../components/icons/IconUsername.vue";
+
 import { defineProps } from "vue";
 
 defineProps({
@@ -32,7 +34,6 @@ defineProps({
   },
   total: {
     type: String,
-    required: true,
   },
 });
 
@@ -40,5 +41,7 @@ const icons = {
   time: IconTime,
   question: IconQuestion,
   right: IconRight,
+  user: IconUser,
+  username: IconUsername,
 };
 </script>

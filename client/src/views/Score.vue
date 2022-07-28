@@ -21,10 +21,12 @@
            </span>
         </div>
         <StatRecorded
-          icon="question"
-          label="Total of correctly answered questions"
-          :score="`${store.backPlayer.score}`"
-          :total="`${totalStore.backTotal}`"
+          v-for="(record, index) in records"
+          :icon="record.icon"
+          :label="record.label"
+          :score="`${record.score}`"
+          :total="`${record.total}`"
+          :key="index"
         />
         <ButtonWrapper
           class="absolute -bottom-5 bg-blue-800 text-white mx-auto w-3/5 py-3 space-x-2 text-sm"
@@ -46,12 +48,32 @@ import StatRecorded from "../components/StatRecorded.vue";
 import BaseImage from "../components/BaseImage.vue";
 import { useUserStore } from "../stores/login"
 import { useQuestionStore } from "../stores/totalQuestion";
+import { reactive } from "vue";
 
 import { useRouter } from "vue-router";
 const router = useRouter()
 
 const store = useUserStore();
 const totalStore = useQuestionStore()
+
+const records = reactive([
+  {
+    icon: "user",
+    label: "identity",
+    score: store.backPlayer.firstname+' '+store.backPlayer.lastname ,
+  },
+  {
+    icon: "username",
+    label: "Player",
+    score: store.backPlayer.lastname,
+  },
+  {
+    icon: "question",
+    label: "Total of correctly answered questions",
+    score: store.backPlayer.score,
+    total: totalStore.backTotal,
+  },
+]);
 
 const startNewQuiz = () => {
   store.resetScore();
