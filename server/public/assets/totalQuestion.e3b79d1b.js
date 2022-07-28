@@ -1,0 +1,1 @@
+import{s as o}from"./index.ff167fd5.js";const r=o("question",{state:()=>({totalScore:0}),getters:{backTotal:t=>t.totalScore},actions:{updateTotalScore(t){this.totalScore=t},resetTotalScore(){this.stotalScorecore=0}}});export{r as u};
