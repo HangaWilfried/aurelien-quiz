@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full absolute top-0 left-0 flex flex-col p-2 lg:p-0 items-center justify-center"
+    class="absolute top-0 left-0 bg-blue-600 w-full h-full flex justify-center items-center text-xs md:text-base"
   >
     <CardWrapper
       class="pb-7 pt-3 px-3 md:pb-10 md:pt-5 md:px-4 lg:pb-12 lg:pt-6 lg:px-6 mx-auto shadow border border-gray-50"

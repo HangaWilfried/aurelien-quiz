@@ -134,8 +134,7 @@ const setClass = (index) => {
 
 <style>
 .default {
-  @apply border-2 border-sky-200 bg-sky-50 hover:bg-sky-200
-  hover:text-sky-700
+  @apply border-2 border-sky-200 bg-sky-50
 }
 .correct {
   @apply  bg-green-200 text-green-900  border border-green-200
