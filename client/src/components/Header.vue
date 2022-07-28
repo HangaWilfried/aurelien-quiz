@@ -9,6 +9,6 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-defineProps(["time"]);
+// import { defineProps } from "vue";
+// defineProps(["time"]);
 </script>

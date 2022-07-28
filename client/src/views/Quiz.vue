@@ -1,7 +1,7 @@
 <template>
   <main class="absolute top-0 left-0 bg-blue-600 w-full h-full flex justify-center items-center text-xs md:text-base">
     <section class="bg-white rounded shadow-xl w-[80%] md:max-w-[530px]">
-      <Header :time="time" />
+      <Header />
       <div class="w-full h-0.5 bg-blue-400"></div>
       <QuestionBox
         :number="currentQuestion"
@@ -89,9 +89,13 @@ const selectedIndex = ref(null);
 
 watchEffect( async () => {
   selectedIndex.value = null;
-  question.answers = _.shuffle(Object.values(quiz[questionIndex.value].answers).filter(answer => answer !== null));
-  question.label = quiz[questionIndex.value].question;
-  question.correctAnswer = quiz[questionIndex.value].answers[quiz[questionIndex.value].correct_answer];
+  try {
+    question.answers = await _.shuffle(Object.values(quiz[questionIndex.value].answers).filter(answer => answer !== null));
+    question.label = await quiz[questionIndex.value].question;
+    question.correctAnswer = await quiz[questionIndex.value].answers[quiz[questionIndex.value].correct_answer];
+  }catch(e) {
+    console.log(e.message);
+  }
 });
 
 const showNextQuestion = () => {
