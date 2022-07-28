@@ -20,14 +20,12 @@
              you can retry the test whenever !!!
            </span>
         </div>
-<!--        <StatRecorded-->
-<!--          v-for="(record, index) in records"-->
-<!--          :icon="record.icon"-->
-<!--          :label="record.label"-->
-<!--          :score="record.score"-->
-<!--          :total="record.total"-->
-<!--          :key="index"-->
-<!--        />-->
+        <StatRecorded
+          icon="question"
+          label="Total questions answers rigth"
+          :score="`${store.backPlayer.score}`"
+          total="20"
+        />
         <ButtonWrapper
           class="absolute -bottom-5 bg-blue-800 text-white mx-auto w-3/5 py-3 space-x-2 text-sm"
           @click="startNewQuiz"
@@ -44,38 +42,16 @@
 import CardWrapper from "../components/CardWrapper.vue";
 import ButtonWrapper from "../components/ButtonWrapper.vue";
 import IconFile from "../components/icons/IconFile.vue";
-// import StatRecorded from "../components/StatRecorded.vue";
+import StatRecorded from "../components/StatRecorded.vue";
 import BaseImage from "../components/BaseImage.vue";
 import { useUserStore } from "../stores/login"
 
 import { useRouter } from "vue-router";
 const router = useRouter()
 
-// const records = [
-//   {
-//     icon: "time",
-//     label: "Total duration",
-//     score: "13 min",
-//     total: "20min",
-//   },
-//   {
-//     icon: "question",
-//     label: "Total questions answers",
-//     score: "9",
-//     total: "14",
-//   },
-//   {
-//     icon: "right",
-//     label: "total points",
-//     score: "13 pts",
-//     total: "20 pts",
-//   },
-// ];
 const store = useUserStore();
 const startNewQuiz = () => {
-  console.log(store.backPlayer.score)
   store.resetScore();
-  console.log(store.backPlayer.score)
   router.push(`/quiz/${store.backPlayer.username}`)
 }
 </script>

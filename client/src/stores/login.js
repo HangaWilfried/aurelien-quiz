@@ -24,7 +24,6 @@ export const useUserStore = defineStore('player', {
     },
     incrementScore(){
       this.score += 1;
-      // console.log(this.score) !!bug to fix
     },
     resetScore(){
       this.score = 0;

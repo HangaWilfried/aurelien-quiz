@@ -24,15 +24,9 @@
       <Bottom v-if="hasSelected"
           :currentQuestion="currentQuestion"
           :totalQuestions="totalQuestions">
-        <button v-if="currentQuestion < totalQuestions"
-          class="rounded bg-blue-600 p-1.5 text-white text-[13px]"
-          @click="showNextQuestion"
-        >next question</button>
-
-        <button v-else
-          class="rounded bg-blue-600 py-1.5 px-4 text-white text-sm"
-          @click="goToDetails"
-        >finish</button>
+        <button class="rounded bg-blue-600 p-1.5 text-white text-[13px]"
+          @click="showNextStep"
+        >{{action}}</button>
       </Bottom>
     </section>
   </main>
@@ -98,25 +92,36 @@ watchEffect( async () => {
   }
 });
 
-const showNextQuestion = () => {
+const router = useRouter();
+const action = ref("next question");
+
+const showNextStep = async () => {
+  if (question.answers[selectedIndex.value] === question.correctAnswer) {
+    store.incrementScore();
+  }
+
  if (questionIndex.value === quiz.length-1) {
+    await store.addUserToDatabase();
+    await router.push(`/quiz/${store.backPlayer.username}/score`)
+    action.value="finish"
     return ;
   }
 
   questionIndex.value += 1;
   hasSelected.value = false;
+  action.value="next question"
 };
-const router = useRouter();
-const goToDetails = async () => {
-  await store.addUserToDatabase();
-  await router.push(`/quiz/${store.backPlayer.username}/score`)
-}
 
 const hasSelected = ref(false);
+
+const selectAnswer = (index) => {
+  selectedIndex.value = index;
+  hasSelected.value = true;
+}
+
 const setClass = (index) => {
   if (hasSelected.value && selectedIndex.value !== null) {
     if (selectedIndex.value === index && question.answers[index] === question.correctAnswer) {
-      store.incrementScore();
       return "correct"
     }
     else if (selectedIndex.value === index && question.answers[index] !== question.correctAnswer) {
@@ -125,10 +130,6 @@ const setClass = (index) => {
   }
   return "default"
 };
-const selectAnswer = (index) => {
-  selectedIndex.value = index;
-  hasSelected.value = true;
-}
 </script>
 
 <style>

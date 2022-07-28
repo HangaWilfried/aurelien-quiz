@@ -1,3 +1,4 @@
+
 <template>
   <div class="flex space-x-2 items-center">
     <component :is="icons[icon]" class="w-5 h-5" />
