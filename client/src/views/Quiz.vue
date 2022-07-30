@@ -4,16 +4,18 @@
       <Header :theme="tag" />
       <div class="w-full h-0.5 bg-blue-400"></div>
       <QuestionBox
+      v-if="question.answers.length > 0"
+      class="animate-on-appear"
         :number="currentQuestion"
         :question="question.label"
       />
       <div class="relative w-full h-full">
         <div class="absolute w-full bg-transparent h-full inset-0" v-if="hasSelected">
         </div>
-        <div class="pb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 animate-spin fill-blue-900" viewBox="0 0 20 20" fill="currentColor" v-if="question.answers.length === 0">
-            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
-          </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-spin fill-blue-900" viewBox="0 0 20 20" fill="currentColor" v-if="question.answers.length === 0">
+          <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+        </svg>
+        <div class="pb-4 animate-on-appear">
           <Answer
           v-for="(answer, index) in question.answers"
           :key="index"
@@ -68,7 +70,7 @@ const tag = ref(-1);
 
 const fetchData = async () => {
   tag.value = keys[Math.floor(Math.random() * keys.length)];
-  const url = `https://quizapi.io/api/v1/questions?apiKey=Gn8k1ABUNVdqrf54oPPX5FRsEmzgbkzDCIZKv6dH&limit=20&tags=${tag.value}`
+  const url = `https://quizapi.io/api/v1/questions?apiKey=Gn8k1ABUNVdqrf54oPPX5FRsEmzgbkzDCIZKv6dH&limit=2&tags=${tag.value}`
   try {
     const { data } = await axios.get(url)
     totalStore.updateTotalScore(data.length);
@@ -122,6 +124,7 @@ const showNextStep = async () => {
  if (questionIndex.value === quiz.length-1) {
     isBusy.value = true;
     await store.addUserToDatabase();
+    notifyMe();
     await router.push(`/quiz/${store.backPlayer.username}/score`)
     return ;
   }
@@ -149,6 +152,25 @@ const setClass = (index) => {
   }
   return "default"
 };
+
+
+function notifyMe() {
+  if (!('Notification' in window)) {
+    alert('Ce navigateur ne prend pas en charge la notification de bureau')
+  }
+  else if (Notification.permission === 'granted') {
+    const notification = new Notification('your data have been send!')
+  }
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        const notification = new Notification('your data have been send!')
+      }
+    })
+  }
+}
+
+
 </script>
 
 <style>
@@ -161,6 +183,48 @@ const setClass = (index) => {
 .incorrect {
   @apply bg-red-100 text-red-900  border border-red-200
 }
+
+
+.animate-on-appear {
+  animation-name: on-appear;
+  animation-duration: 0.4s;
+}
+ 
+@keyframes on-appear {
+  0% {
+    transform: translateX(100px);
+  }
+  10% {
+    transform: translateX(90px);
+  }
+  20% {
+    transform: translateX(80px);
+  }
+  30% {
+    transform: translateX(70px);
+  }
+  40% {
+    transform: translateX(60px);
+  }
+  50% {
+    transform: translateX(50px);
+  }
+  60% {
+    transform: translateX(40px);
+  }
+  70% {
+    transform: translateX(30px);
+  }
+  80% {
+    transform: translateX(20px);
+  }
+  90% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}  
 </style>
 
 

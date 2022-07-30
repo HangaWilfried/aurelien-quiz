@@ -34,7 +34,6 @@ export const useUserStore = defineStore('player', {
         url: "/api/post",
         data: this.backPlayer,
       })
-      new Notification("your data have been send!");
     },
   },
 })
