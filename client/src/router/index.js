@@ -13,12 +13,12 @@ const router = createRouter({
     },
     {
       name: "welcome",
-      path: "/welcome",
+      path: "/welcome/:id",
       component: Home,
     },
     {
       name: "rules",
-      path: "/rules",
+      path: "/rules/:id",
       component: () => import("../views/Rules.vue"),
     },
     {

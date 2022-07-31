@@ -23,4 +23,4 @@ mongoose.connect(process.env.MONGO_CONNECTION_URI, {
 
 app.use("/api/post", require("./routes/manageUser"))
 
-app.listen(port, () => console.log(`server run on http://localhost/${port}`))
+app.listen(port, () => console.log(`server run on http://localhost:${port}`))
